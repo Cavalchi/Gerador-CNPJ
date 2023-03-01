@@ -1,0 +1,24 @@
+import random
+
+def gerar_cnpj():
+    # Gerar os oito primeiros dígitos
+    oito_digitos = [random.randint(0, 9) for _ in range(8)]
+
+    # Cálculo do primeiro dígito verificador
+    soma = sum([x * y for x, y in zip(oito_digitos, range(2, 10))])
+    resto = soma % 11
+    primeiro_digito = 0 if resto < 2 else 11 - resto
+
+    # Adicionando o primeiro dígito verificador aos primeiros oito dígitos
+    nove_digitos = oito_digitos + [primeiro_digito]
+
+    # Cálculo do segundo dígito verificador
+    soma = sum([x * y for x, y in zip(nove_digitos, range(2, 11))])
+    resto = soma % 11
+    segundo_digito = 0 if resto < 2 else 11 - resto
+
+    # Retorna o CNPJ completo
+    return ''.join(map(str, oito_digitos)) + f'{primeiro_digito}{segundo_digito}0001'
+
+# Exemplo de uso
+print(gerar_cnpj())
